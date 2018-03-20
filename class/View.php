@@ -16,7 +16,7 @@ class View {
         '/css/common.css'
     ];
     protected $js = [
-        '//code.jquery.com/jquery-3.2.1.min.js',
+        '/js/jquery-3.2.1.min.js',
         '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
         '/js/jquery.inputmask.bundle.min.js',
         '/js/phone.min.js',

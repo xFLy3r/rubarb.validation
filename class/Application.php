@@ -2,7 +2,6 @@
 
 class Application extends Config {
 
-
     private $routingRules = [
         'Application' => [
             'index' => 'Application/actionIndex'
@@ -72,15 +71,64 @@ class Application extends Config {
      * в случае отсутствия ошибок, возвращать следует пустой массив
      */
     public function actionFormSubmit($data) {
-        var_dump($data);
-        //ToDo Механизм валидации
-//        $errors = ['phone' => 'sample error'];          //Пример ошибки
-        $errors = [];                                  //Отсутствие ошибок
+        //$errors = ['phone' => 'sample error'];          //Пример ошибки
+        $errors = [];
+        foreach ($data as $key => $value) {
+            if ($value['name'] === 'name' && $this->validateName($value['value']) === false) {
+                $errors['name'] = 'Invalid name';
+            }
 
+            if ($value['name'] === 'phone' && $this->validatePhone($value['value']) === false) {
+                $errors['phone'] = 'Invalid phone';
+            }
+
+            if ($value['name'] === 'email' && $this->validateEmail($value['value']) === false) {
+                $errors['email'] = 'Invalid email';
+            }
+
+            if ($value['name'] === 'comment' && $this->validateComment($value['value']) === false) {
+                $errors['comment'] = 'Invalid comment';
+            }
+        }
 
         return ['result' => count($errors) === 0, 'error' => $errors];
     }
 
+    private function validateName(string $name)
+    {
+        if (strlen($name) > 0 && strlen($name) < 64 && preg_match('/^[A-Za-z]+$/', $name)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function validatePhone(string $phone)
+    {
+
+        return true;
+    }
+
+    private function validateEmail(string $email)
+    {
+        if (strlen($email) > 0) {
+            if (!preg_match('/^[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/', $email)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function validateComment(string $comment)
+    {
+        if (strlen($comment) > 0) {
+            if($comment != strip_tags($comment)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Функция обработки AJAX запросов
@@ -101,5 +149,4 @@ class Application extends Config {
         } else { $result = ['error' => 'Empty request!']; }
         return $result;
     }
-
 }

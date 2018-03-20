@@ -31,6 +31,7 @@ var Site = {
         formSubmit: function($form) {
             this.obj.method = 'formSubmit';
             this.obj.data = $form.serializeArray();
+            //console.log(this.obj.data);
             this.send(function() {
                 $form.fadeOut('fast', function() {
                     $form[0].reset();
