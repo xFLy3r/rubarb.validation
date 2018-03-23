@@ -22,7 +22,6 @@ var Site = {
         obj: {},
         send: function(success, failure) {
             $.post('/', this.obj, function(answer) {
-                console.log(answer);
                 (answer.result && typeof success == 'function') ? success(answer) :
                     (!answer.result && typeof failure == 'function') ? failure(answer) : null;
                 Site.ajax.obj = {};
@@ -31,7 +30,7 @@ var Site = {
         formSubmit: function($form) {
             this.obj.method = 'formSubmit';
             this.obj.data = $form.serializeArray();
-            //console.log(this.obj.data);
+            console.log(this.obj.data);
             this.send(function() {
                 $form.fadeOut('fast', function() {
                     $form[0].reset();
